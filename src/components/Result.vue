@@ -38,11 +38,11 @@ export default {
       return `${this.iconUrl}${this.weather.weather[0].icon}@2x.png`;
     },
     removeVoivodeship() {
-      if (this.weather.name === 'Lublin Voivodeship' || this.weather.name === 'Łódź Voivodeship') {
+      if (this.weather.name === 'Lublin Voivodeship' || this.weather.name === 'Łódź Voivodeship' || this.weather.name === 'Opole Voivodeship') {
         let shortenedName = this.weather.name.split(" ")
         return this.weather.name = shortenedName[0];
       } else this.weather.name;
-    }
+    },
   },
 }
 </script>
@@ -50,7 +50,6 @@ export default {
 <style scoped>
 @media (min-width: 1300px) {
   #result-window {
-    /* padding: 5vh 0 5vh 0; */
     opacity: 0.8;
     margin-top: ;
   }
@@ -63,7 +62,6 @@ export default {
 
   #temperature-container {
     font-size: 2em;
-    /* margin: 0 11vw 0 11vw; */
     border-radius: 10px;
   }
 
@@ -87,6 +85,10 @@ export default {
 
   .box-shadow {
     text-shadow: 3px 3px 1px #4f6377;
+  }
+
+  #error {
+    font-size: 2em;
   }
 }
 

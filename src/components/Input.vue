@@ -16,7 +16,7 @@ export default {
   methods: {
     inputCapturing() {
       if (this.inputVariable === '') alert("Input can not be empty");
-      else if (!isNaN(this.inputVariable)) alert('Wrong input')
+      else if (!isNaN(this.inputVariable)) alert('Wrong input');
       else {
         // $emit("nazwa eventu", argument, który chcemy przepuścić)
         this.$emit("inputCapturing", this.inputVariable);
@@ -45,6 +45,7 @@ export default {
     border: none;
     opacity: 0.5;
     box-shadow: 3px 3px 2px #4f6377;
+    transition: .5s;
   }
 
   #input:focus {
@@ -60,6 +61,7 @@ export default {
     opacity: 0.5;
     font-family: 'Epilogue', sans-serif;
     box-shadow: 3px 3px 2px #4f6377;
+    transition: .5s;
   }
 
   #submit-button:active {
