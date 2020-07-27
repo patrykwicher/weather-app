@@ -1,19 +1,28 @@
 <template>
 <div id="result-window">
-  <div v-if="weather.cod === 200" id="wrapper">
+  <div v-if="weather.temperature.cod === 200" id="wrapper">
     <div class="first-row">
-      <div class="city-date" id="city" :removeVoivodeship="removeVoivodeship()"><span class='box-shadow'> {{ weather.name }} </span></div>
+      <div class="city-date" id="city" :removeVoivodeship="removeVoivodeship()"><span class='box-shadow'> {{ weather.temperature.name }} </span></div>
       <div class="city-date" id="date"><span class='box-shadow'><sup> {{ weekDays[date.getDay()-1] }} {{ date.getDate() }} {{ months[date.getMonth()] }} {{ date.getFullYear() }} </sup></span></div>
     </div>
     <div id="weather-icon" class='box-shadow'>
       <img :src="returnIconUrl()" />
     </div>
-    <div id="weather-type" class='box-shadow'> {{ weather.weather[0].main }} </div>
+    <div id="weather-type" class='box-shadow'> {{ weather.temperature.weather[0].main }} </div>
     <div id="temperature-container" class='box-shadow'>
-      <div id='temperature-text'>{{ Math.round(weather.main.temp) }} <sup>o</sup>C</div>
+      <div id='temperature-text'>{{ Math.round(weather.temperature.main.temp) }} <sup>o</sup>C</div>
+    </div>
+    <div id='forecast-wrapper' class='box-shadow'>
+    <div v-for="forecast in weather.forecast.list" :key="forecast.dt" id="hour-wrapper">
+        <div> {{ forecast.dt_txt.split(" ")[1].split(":")[0] }}:00 </div>
+        <div>
+          <img :src="`${iconUrl}${forecast.weather[0].icon}@2x.png`" />
+        </div>
+        <div> {{ Math.round(forecast.main.temp) }} <sup>o</sup>C </div>
     </div>
   </div>
-  <div v-else class="box-shadow" id="error"> {{ weather.message }} </div>
+  </div>
+  <div v-else class="box-shadow" id="error"> {{ weather.temperature.message }} </div>
 </div>
 </template>
 
@@ -35,13 +44,13 @@ export default {
   },
   methods: {
     returnIconUrl() {
-      return `${this.iconUrl}${this.weather.weather[0].icon}@2x.png`;
+      return `${this.iconUrl}${this.weather.temperature.weather[0].icon}@2x.png`;
     },
     removeVoivodeship() {
-      if (this.weather.name === 'Lublin Voivodeship' || this.weather.name === 'Łódź Voivodeship' || this.weather.name === 'Opole Voivodeship') {
-        let shortenedName = this.weather.name.split(" ")
-        return this.weather.name = shortenedName[0];
-      } else this.weather.name;
+      if (this.weather.temperature.name === 'Lublin Voivodeship' || this.weather.temperature.name === 'Łódź Voivodeship' || this.weather.temperature.name === 'Opole Voivodeship') {
+        let shortenedName = this.weather.temperature.name.split(" ")
+        return this.weather.temperature.name = shortenedName[0];
+      } else this.weather.temperature.name;
     },
   },
 }
@@ -54,6 +63,21 @@ export default {
     margin-top: ;
   }
 
+  #forecast-wrapper {
+    display: flex;
+    justify-content: space-evenly;
+    margin-top: 2vh;
+    text-shadow: 1.5px 1.5px #4f6377;
+    background-color: #8599ad;
+    padding: 2vh 0 2vh 0;
+    margin: 2vh 1vw 4vh 1vw;
+    border-radius: 10px;
+  }
+
+  #hour-wrapper {
+      opacity: 1;
+  }
+
   .first-row {
     display: flex;
     justify-content: space-around;
@@ -61,7 +85,7 @@ export default {
   }
 
   #temperature-container {
-    font-size: 2em;
+    font-size: 1.6em;
     border-radius: 10px;
   }
 
@@ -98,7 +122,8 @@ export default {
     flex-direction: column;
   }
 
-  #result-window, #error{
+  #result-window,
+  #error {
     margin-top: 7vh;
   }
 
@@ -120,6 +145,7 @@ export default {
   #temperature-text {
     font-size: 3em;
   }
+
   .box-shadow {
     text-shadow: 3px 3px 1px #4f6377;
   }
@@ -131,7 +157,8 @@ export default {
     flex-direction: column;
   }
 
-  #result-window, #error{
+  #result-window,
+  #error {
     margin-top: 7vh;
   }
 
@@ -153,6 +180,7 @@ export default {
   #temperature-text {
     font-size: 3em;
   }
+
   .box-shadow {
     text-shadow: 3px 3px 1px #4f6377;
   }

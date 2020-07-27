@@ -1,12 +1,11 @@
 <template>
 <div id="app" :style="bgColor">
-  <Input v-on:inputCapturing="fetchData($event)" />
+  <Input v-on:inputCapturing="fetchDataByAsync($event)" />
   <Result v-bind:weather="weather" />
 </div>
 </template>
 
 <script>
-// import Header from './components/Header.vue'
 import Input from './components/Input.vue'
 import Result from './components/Result.vue'
 
@@ -16,53 +15,69 @@ export default {
     return {
       city: '',
       apiKey: '&appid=b2cfc3526743b036459d865a76cc2f1e',
-      url: `https://api.openweathermap.org/data/2.5/weather?q=`,
-
-      weather: {},
+      temperatureUrl: `https://api.openweathermap.org/data/2.5/weather?q=`,
+      forecastUrl: `https://api.openweathermap.org/data/2.5/forecast?q=`,
+      weather: {
+        temperature: {},
+        forecast: {}
+      },
       error: null,
       bgColor: {
         backgroundColor: '',
         color: ''
       },
+      forwardForecasts: null,
     }
   },
   methods: {
     returnUrl() {
-      return `${this.url}${this.city}&units=metric${this.apiKey}`;
+      return [`${this.temperatureUrl}${this.city}&units=metric${this.apiKey}`, `${this.forecastUrl}${this.city}&units=metric${this.apiKey}&cnt=5`];
     },
-    //fetchData($event - argument, który emitujemy do App.vue z Input.vue)
-    fetchData(inputValue) {
+    // async function - zwraca Promise
+    async fetchDataByAsync(inputValue) {
       this.city = inputValue;
-      let url = this.returnUrl();
-      fetch(url)
-        .then(response => response.json())
-        .then(response => {
-          this.weather = response;
-          this.changeBackgroundColor();
-        })
-        .catch(error => {
-          this.weather = error;
-        })
+      let urls = this.returnUrl();
+      // jeżeli w bloku try pojawi się jakiś błąd, zostanie on przeakazany i obsłużony w catch
+      try {
+        // await pozwala na natychmiastowe odczytanie wartości z obietnicy, bez bawienia się w łańcuszek .then(...)
+        let temperatureResponse = await fetch(urls[0]);
+        this.weather.temperature = await temperatureResponse.json();
+        let forecastReponse = await fetch(urls[1]);
+        this.weather.forecast = await forecastReponse.json();
+        this.changeBackgroundColor();
+      }
+      catch(error) {
+        this.temperature = error;
+      }
+
     },
+
     changeBackgroundColor() {
-      if (this.weather.cod === 200) {
-        if (this.weather.weather[0].main === 'Rain') this.bgColor.backgroundColor = '#7491af'
-        else if (this.weather.weather[0].main === 'Thunderstorm') this.bgColor.backgroundColor = '#8B7BAA'
-        else if (this.weather.weather[0].main === 'Clear') this.bgColor.backgroundColor = '#FEB48F'
-        else if (this.weather.weather[0].main === 'Clouds') this.bgColor.backgroundColor = '#b2d4f7'
-        else if (this.weather.weather[0].main === 'Mist') this.bgColor.backgroundColor = '#99a7ad'
-        else if (this.weather.weather[0].main === 'Snow') {
+      if (this.weather.temperature.cod === 200) {
+        if (this.weather.temperature.weather[0].main === 'Rain') this.bgColor.backgroundColor = '#7491af'
+        else if (this.weather.temperature.weather[0].main === 'Thunderstorm') this.bgColor.backgroundColor = '#8B7BAA'
+        else if (this.weather.temperature.weather[0].main === 'Clear') this.bgColor.backgroundColor = '#FEB48F'
+        else if (this.weather.temperature.weather[0].main === 'Clouds') this.bgColor.backgroundColor = '#b2d4f7'
+        else if (this.weather.temperature.weather[0].main === 'Mist') this.bgColor.backgroundColor = '#99a7ad'
+        else if (this.weather.temperature.weather[0].main === 'Snow') {
           this.bgColor.backgroundColor = '#E0E7EA'
           this.color = '#7C959D'
         }
       }
-      else if (this.weather.cod === '404') {
+      else if (this.weather.temperature.cod === '404') {
         this.bgColor.backgroundColor = '#BBB'
       }
+    },
+    amountOfForecasts() {
+      // const width = window.innerWidth;
+      // const height = window.innerhHeight;
+      // if(width === 834) this.forwardForecasts = 4;
     }
   },
+  mounted() {
+    this.amountOfForecasts();
+  },
   components: {
-    // Header,
     Input,
     Result
   }
