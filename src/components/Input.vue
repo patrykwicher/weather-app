@@ -30,22 +30,22 @@ export default {
 <style scoped>
 @import url('https://fonts.googleapis.com/css2?family=Epilogue&display=swap');
 
-@media (min-width: 1300px) {
+@media (max-width: 688px) {
   #input-div {
-    font-family: 'Epilogue', sans-serif;
     display: flex;
+    flex-direction: column;
   }
 
   #input {
     border-radius: 5px;
-    padding-left: 0.5%;
-    width: 30vw;
-    padding: 0.6vw;
+    width: 90vw;
+    margin: 0 auto 0 auto;
+    padding: 2vw;
     font-size: 1em;
     border: none;
     opacity: 0.5;
     box-shadow: 3px 3px 2px #4f6377;
-    transition: .5s;
+    font-family: 'Epilogue', sans-serif;
   }
 
   #input:focus {
@@ -55,13 +55,13 @@ export default {
   #submit-button {
     border: none;
     border-radius: 5px;
-    background-color: white;
-    padding: 0.75vw;
-    margin-left: 1vw;
+    padding: 2vw;
     opacity: 0.5;
+    font-size: 1em;
     font-family: 'Epilogue', sans-serif;
     box-shadow: 3px 3px 2px #4f6377;
-    transition: .5s;
+    margin: 1vh auto 0 auto;
+    width: 94vw;
   }
 
   #submit-button:active {
@@ -69,49 +69,23 @@ export default {
   }
 }
 
-@media (max-width: 600px) {
-    #input {
-      border-radius: 5px;
-      padding-left: 0.5%;
-      width: 30vw;
-      padding: 0.6vw;
-      font-size: 1em;
-      border: none;
-      opacity: 0.5;
-      box-shadow: 3px 3px 2px #4f6377;
-    }
+@media (min-width: 689px) {
+  #input-div {
+    display: flex;
+    margin-bottom: 3vh;
+  }
 
-    #input:focus {
-      opacity: 0.8;
-    }
-
-    #submit-button {
-      border: none;
-      border-radius: 5px;
-      background-color: white;
-      padding: 0.75vw;
-      opacity: 0.5;
-      font-family: 'Epilogue', sans-serif;
-      box-shadow: 3px 3px 2px #4f6377;
-      margin-top: 1vh;
-      width: 31.5vw;
-    }
-
-    #submit-button:active {
-      opacity: 0.8;
-    }
-}
-
-@media (min-width: 600px) {
   #input {
+    font-family: 'Epilogue', sans-serif;
     border-radius: 5px;
-    padding-left: 0.5%;
-    width: 30vw;
-    padding: 0.6vw;
+    width: 70vw;
+    margin: 0 0 0 auto;
+    padding: 2vw;
     font-size: 1em;
     border: none;
     opacity: 0.5;
     box-shadow: 3px 3px 2px #4f6377;
+    transition: .5s;
   }
 
   #input:focus {
@@ -120,14 +94,15 @@ export default {
 
   #submit-button {
     border: none;
-    border-radius: 5px;
     background-color: white;
+    border-radius: 5px;
     padding: 0.75vw;
+    margin: 0 auto 0 1vw;
     opacity: 0.5;
     font-family: 'Epilogue', sans-serif;
     box-shadow: 3px 3px 2px #4f6377;
-    margin-top: 1vh;
-    width: 31.5vw;
+    transition: .5s;
+    width: 15vw;
   }
 
   #submit-button:active {
@@ -139,19 +114,14 @@ export default {
   #input-div {
     font-family: 'Epilogue', sans-serif;
     display: flex;
+    margin-bottom: 5vh;
   }
 
   #input {
     border-radius: 5px;
-    padding-left: 0.5%;
-    width: 25vw;
-    padding: 0.6vw;
-    font-size: 1em;
-    border: none;
-    opacity: 0.5;
-    box-shadow: 3px 3px 2px #4f6377;
-    margin-left: 1.7vw;
-    margin-top: 1vh;
+    padding-left: 1.5vw;
+    width: 70vw;
+    margin: 0 0 0 4vw;
   }
 
   #input:focus {
@@ -163,16 +133,23 @@ export default {
     border-radius: 5px;
     background-color: white;
     padding: 0.75vw;
-    margin-left: 1vw;
+    margin: 0 4vw 0 1vw;
     opacity: 0.5;
     font-family: 'Epilogue', sans-serif;
     box-shadow: 3px 3px 2px #4f6377;
-    width: 8vw;
-    height: 7vh;
+    width: 15vw;
+    font-size: 2vw
   }
 
   #submit-button:active {
     opacity: 0.8;
   }
 }
+
+@media (min-width: 3840px) {
+  #input {
+    font-size: 2vw; 
+  }
+}
+
 </style>

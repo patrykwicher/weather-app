@@ -31,7 +31,7 @@ export default {
   },
   methods: {
     returnUrl() {
-      return [`${this.temperatureUrl}${this.city}&units=metric${this.apiKey}`, `${this.forecastUrl}${this.city}&units=metric${this.apiKey}&cnt=5`];
+      return [`${this.temperatureUrl}${this.city}&units=metric${this.apiKey}`, `${this.forecastUrl}${this.city}&units=metric${this.apiKey}&cnt=${this.forwardForecasts}`];
     },
     // async function - zwraca Promise
     async fetchDataByAsync(inputValue) {
@@ -54,28 +54,32 @@ export default {
 
     changeBackgroundColor() {
       if (this.weather.temperature.cod === 200) {
-        if (this.weather.temperature.weather[0].main === 'Rain') this.bgColor.backgroundColor = '#7491af'
-        else if (this.weather.temperature.weather[0].main === 'Thunderstorm') this.bgColor.backgroundColor = '#8B7BAA'
-        else if (this.weather.temperature.weather[0].main === 'Clear') this.bgColor.backgroundColor = '#FEB48F'
-        else if (this.weather.temperature.weather[0].main === 'Clouds') this.bgColor.backgroundColor = '#b2d4f7'
-        else if (this.weather.temperature.weather[0].main === 'Mist') this.bgColor.backgroundColor = '#99a7ad'
+        if (this.weather.temperature.weather[0].main === 'Rain') this.bgColor.backgroundColor = '#7491af';
+        else if (this.weather.temperature.weather[0].main === 'Thunderstorm') this.bgColor.backgroundColor = '#8B7BAA';
+        else if (this.weather.temperature.weather[0].main === 'Clear') this.bgColor.backgroundColor = '#FEB48F';
+        else if (this.weather.temperature.weather[0].main === 'Clouds') this.bgColor.backgroundColor = '#b2d4f7';
+        else if (this.weather.temperature.weather[0].main === 'Mist') this.bgColor.backgroundColor = '#99a7ad';
         else if (this.weather.temperature.weather[0].main === 'Snow') {
-          this.bgColor.backgroundColor = '#E0E7EA'
-          this.color = '#7C959D'
+          this.bgColor.backgroundColor = '#E0E7EA';
+          this.color = '#7C959D';
         }
       }
       else if (this.weather.temperature.cod === '404') {
-        this.bgColor.backgroundColor = '#BBB'
+        this.bgColor.backgroundColor = '#BBB';
       }
     },
     amountOfForecasts() {
-      // const width = window.innerWidth;
-      // const height = window.innerhHeight;
-      // if(width === 834) this.forwardForecasts = 4;
+      const width = window.innerWidth;
+      console.log(width);
+      if(width <= 320) this.forwardForecasts = 2;
+      else if(width > 320 && width <= 688) this.forwardForecasts = 3;
+      else if(width > 689) this.forwardForecasts = 5;
+      // else if(width > 993 || width <= 1312) this.forwardForecasts = 5;
+      // else this.forwardForecasts = 5;
     }
   },
   mounted() {
-    this.amountOfForecasts();
+    setTimeout(this.amountOfForecasts(), 2000);
   },
   components: {
     Input,
@@ -89,16 +93,14 @@ export default {
 
 /* font-family: 'Epilogue', sans-serif; */
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  margin: 0 30vw 0 30vw;
   background-color: #BBB;
   padding: 2vh 0 0 0;
   color: white;
   font-family: 'Epilogue', sans-serif;
-  height: 90vh;
+  height: 100vh;
   border-radius: 10px;
   transition: .5s;
   box-shadow: 4px 4px 10px #5f7994;
@@ -108,4 +110,5 @@ export default {
   color: none;
   background: none;
 }
+
 </style>
